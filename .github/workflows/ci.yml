@@ -49,20 +49,20 @@ jobs:
       - name: ✅　Test
         run: pnpm run test
 
-      - name: 🔑　Generate Token
-        uses: wow-actions/use-app-token@v2
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+      #- name: 🔑　Generate Token
+      #  uses: wow-actions/use-app-token@v2
+      #  with:
+      #    app_id: ${{ secrets.APP_ID }}
+      #    private_key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: 💡　Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ env.BOT_TOKEN }}
-          path-to-lcov: ./test/coverage/lcov.info
+      #- name: 💡　Coveralls
+      #  uses: coverallsapp/github-action@master
+      #  with:
+      #    github-token: ${{ env.BOT_TOKEN }}
+      #    path-to-lcov: ./test/coverage/lcov.info
 
-      - name: 💡　Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./test/coverage/lcov.info
+      #- name: 💡　Codecov
+      #  uses: codecov/codecov-action@v1
+      #  with:
+      #    token: ${{ secrets.CODECOV_TOKEN }}
+      #    files: ./test/coverage/lcov.info

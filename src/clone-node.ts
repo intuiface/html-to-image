@@ -13,7 +13,7 @@ async function cloneCanvasElement(canvas: HTMLCanvasElement) {
 }
 
 async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
-  if (video.currentSrc) {
+  if (video.currentSrc && video.currentTime > 0) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     canvas.width = video.clientWidth

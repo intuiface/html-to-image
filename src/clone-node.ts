@@ -74,7 +74,7 @@ async function cloneChildren<T extends HTMLElement>(
 ): Promise<T> {
   let children: T[] = []
 
-  if (isSlotElement(nativeNode) && nativeNode.assignedNodes) {
+  if (isSlotElement(nativeNode) && nativeNode.assignedNodes && nativeNode.assignedNodes().length > 0) {
     children = toArray<T>(nativeNode.assignedNodes())
   } else if (
     isInstanceOfElement(nativeNode, HTMLIFrameElement) &&

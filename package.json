@@ -55,12 +55,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/2knu/html-to-image"
+    "url": "git+https://github.com/intuiface/html-to-image"
   },
   "bugs": {
-    "url": "https://github.com/2knu/html-to-image/issues"
+    "url": "https://github.com/intuiface/html-to-image/issues"
   },
-  "homepage": "https://github.com/2knu/html-to-image#readme",
+  "homepage": "https://github.com/intuiface/html-to-image#readme",
   "devDependencies": {
     "@bubkoo/commitlint-config": "^1.0.2",
     "@bubkoo/eslint-config": "^1.3.1",

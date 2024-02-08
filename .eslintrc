@@ -1,3 +1,4 @@
 {
-  "extends": "@bubkoo/eslint-config"
+  "extends": "@bubkoo/eslint-config",
+  "ignorePatterns": ["dist", "lib", "es"]
 }

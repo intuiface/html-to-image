@@ -13,7 +13,7 @@ async function cloneCanvasElement(canvas: HTMLCanvasElement) {
 }
 
 async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
-  if (video.currentSrc) {
+  if (video.currentSrc && (video.poster == null || video.poster === '' || video.currentTime > 0)) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     canvas.width = video.clientWidth
@@ -74,7 +74,7 @@ async function cloneChildren<T extends HTMLElement>(
 ): Promise<T> {
   let children: T[] = []
 
-  if (isSlotElement(nativeNode) && nativeNode.assignedNodes) {
+  if (isSlotElement(nativeNode) && nativeNode.assignedNodes && nativeNode.assignedNodes().length > 0) {
     children = toArray<T>(nativeNode.assignedNodes())
   } else if (
     isInstanceOfElement(nativeNode, HTMLIFrameElement) &&

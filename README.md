@@ -22,18 +22,18 @@
 ## Install
 
 ```shell
-npm install --save html-to-image
+npm install --save @intuiface/html-to-image
 ```
 
 ## Usage
 
 ```js
 /* ES6 */
-import * as htmlToImage from 'html-to-image';
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import * as htmlToImage from '@intuiface/html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from '@intuiface/html-to-image';
 
 /* ES5 */
-var htmlToImage = require('html-to-image');
+var htmlToImage = require('@intuiface/html-to-image');
 ```
 
 All the top level functions accept DOM node and rendering options, and return a promise fulfilled with corresponding dataURL:
@@ -145,7 +145,7 @@ htmlToImage.toPixelData(node)
 #### React
 ```tsx
 import React, { useCallback, useRef } from 'react';
-import { toPng } from 'html-to-image';
+import { toPng } from '@intuiface/html-to-image';
 
 const App: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)

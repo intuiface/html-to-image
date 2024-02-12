@@ -50,6 +50,11 @@ jobs:
       - name: ✅　Test
         run: pnpm run test
 
+      - name: Publish package
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPMJS_PUBLISH_TOKEN}}
+
       #- name: 🔑　Generate Token
       #  uses: wow-actions/use-app-token@v2
       #  with:

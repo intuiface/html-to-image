@@ -45,14 +45,8 @@
       "eslint --fix"
     ]
   },
-  "release": {
-    "extends": "@bubkoo/semantic-release-config"
-  },
   "license": "MIT",
-  "author": {
-    "name": "bubkooo",
-    "email": "bubkoo.wy@gmail.com"
-  },
+  "author": "intuiface",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intuiface/html-to-image"

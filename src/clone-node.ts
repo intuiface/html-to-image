@@ -93,10 +93,11 @@ async function cloneChildren<T extends HTMLElement>(
       (nativeNode.shadowRoot ?? nativeNode).childNodes,
     ).filter((child) => child.getAttribute('isCurrentPage') === 'true')
   } else if (
-    isInstanceOfElement(nativeNode, HTMLIFrameElement) &&
-    nativeNode.contentDocument?.body
+    isInstanceOfElement(nativeNode, HTMLIFrameElement)
+    // && nativeNode.contentDocument?.body
   ) {
-    children = toArray<T>(nativeNode.contentDocument.body.childNodes)
+    // Iframe's children are already cloned in CloneSingleNode function
+    children = [] // toArray<T>(nativeNode.contentDocument.body.childNodes)
   } else {
     children = toArray<T>((nativeNode.shadowRoot ?? nativeNode).childNodes)
   }

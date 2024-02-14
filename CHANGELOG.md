@@ -1,6 +1,21 @@
+## [1.11.14](https://github.com/bubkoo/html-to-image/compare/v1.11.13...v1.11.14) (2024-02-14)
+
+### Bug Fixes
+
+* avoid cloning the children of an iframe twice
+
 ## [1.11.13](https://github.com/bubkoo/html-to-image/compare/v1.11.12...v1.11.13) (2024-02-14)
 
+### Bug Fixes
+
+* manage PDF and Book (avoid to clone all pages)
+
 ## [1.11.12](https://github.com/bubkoo/html-to-image/compare/v1.11.11...v1.11.12) (2023-02-12)
+
+### Bug Fixes
+
+* fix snapshot when video with poster has not been launched
+* fix children of the Slot tag if there are no assignedNodes
 
 ## [1.11.11](https://github.com/bubkoo/html-to-image/compare/v1.11.10...v1.11.11) (2023-02-01)
 

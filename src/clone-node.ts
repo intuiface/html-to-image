@@ -14,7 +14,7 @@ async function cloneCanvasElement(canvas: HTMLCanvasElement) {
 
 async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
   if (
-    video.currentSrc &&
+    (video.currentSrc || video.srcObject) &&
     (video.poster == null || video.poster === '' || video.currentTime > 0)
   ) {
     const canvas = document.createElement('canvas')

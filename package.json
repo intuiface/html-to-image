@@ -1,6 +1,6 @@
 {
   "name": "@intuiface/html-to-image",
-  "version": "1.11.14",
+  "version": "1.11.15",
   "description": "Generates an image from a DOM node using HTML5 canvas and SVG. This is a fork from antoher fork Repo (2knu/html-to-image) from the original Repo (bubkoo/html-to-image)",
   "main": "lib/index.js",
   "module": "es/index.js",

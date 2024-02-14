@@ -13,7 +13,10 @@ async function cloneCanvasElement(canvas: HTMLCanvasElement) {
 }
 
 async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
-  if (video.currentSrc && (video.poster == null || video.poster === '' || video.currentTime > 0)) {
+  if (
+    video.currentSrc &&
+    (video.poster == null || video.poster === '' || video.currentTime > 0)
+  ) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
     canvas.width = video.clientWidth
@@ -74,8 +77,21 @@ async function cloneChildren<T extends HTMLElement>(
 ): Promise<T> {
   let children: T[] = []
 
-  if (isSlotElement(nativeNode) && nativeNode.assignedNodes && nativeNode.assignedNodes().length > 0) {
+  if (
+    isSlotElement(nativeNode) &&
+    nativeNode.assignedNodes &&
+    nativeNode.assignedNodes().length > 0
+  ) {
     children = toArray<T>(nativeNode.assignedNodes())
+  } else if (
+    nativeNode.parentElement &&
+    nativeNode.parentElement.hasAttribute('pdf-document') &&
+    !nativeNode.parentElement.classList.contains('book-container')
+  ) {
+    // Snapshot only one page of a multi-page PDF
+    children = toArray<T>(
+      (nativeNode.shadowRoot ?? nativeNode).childNodes,
+    ).filter((child) => child.getAttribute('isCurrentPage') === 'true')
   } else if (
     isInstanceOfElement(nativeNode, HTMLIFrameElement) &&
     nativeNode.contentDocument?.body
@@ -84,6 +100,11 @@ async function cloneChildren<T extends HTMLElement>(
   } else {
     children = toArray<T>((nativeNode.shadowRoot ?? nativeNode).childNodes)
   }
+
+  // Keep only visible elements
+  children = children.filter(
+    (child) => child.style == null || child.style.display !== 'none',
+  )
 
   if (
     children.length === 0 ||
@@ -174,6 +195,9 @@ function cloneScrollbarPositions<T extends HTMLElement>(
   nativeNode: T,
   clonedNode: T,
 ) {
+  // Snapshot only on page of a multi-page PDF so no need to scroll
+  if (nativeNode.hasAttribute('pdf-document')) return
+
   if (nativeNode.scrollLeft !== 0 || nativeNode.scrollTop !== 0) {
     for (let i = 0; i < clonedNode.children.length; i += 1) {
       const child = clonedNode.childNodes[i] as any as HTMLSelectElement

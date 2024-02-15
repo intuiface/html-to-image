@@ -25,6 +25,12 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
     const dataURL = canvas.toDataURL()
     return createImage(dataURL)
   }
+  if (video.poster == null || video.poster === '') {
+    // create an image with the tyniest source found
+    return createImage(
+      'data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+    )
+  }
 
   const poster = video.poster
   const contentType = getMimeType(poster)

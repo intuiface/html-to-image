@@ -1,3 +1,10 @@
+## [1.11.15](https://github.com/bubkoo/html-to-image/compare/v1.11.15...v1.11.16) (2024-02-16)
+
+### Bug Fixes
+
+* fix snapshot of webcam if the camera is not allowed to use (empty image)
+
+
 ## [1.11.15](https://github.com/bubkoo/html-to-image/compare/v1.11.14...v1.11.15) (2024-02-14)
 
 ### Bug Fixes

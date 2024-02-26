@@ -1,4 +1,10 @@
-## [1.11.15](https://github.com/bubkoo/html-to-image/compare/v1.11.15...v1.11.16) (2024-02-16)
+## [1.11.17](https://github.com/bubkoo/html-to-image/compare/v1.11.16...v1.11.17) (2024-02-26)
+
+### Bug Fixes
+
+* fix snapshot of image tag without image src
+
+## [1.11.16](https://github.com/bubkoo/html-to-image/compare/v1.11.15...v1.11.16) (2024-02-16)
 
 ### Bug Fixes
 

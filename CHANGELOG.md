@@ -1,3 +1,9 @@
+## [1.11.18](https://github.com/bubkoo/html-to-image/compare/v1.11.17...v1.11.18) (2024-02-28)
+
+### Bug Fixes
+
+* fix snapshot of image with an invalid source
+
 ## [1.11.17](https://github.com/bubkoo/html-to-image/compare/v1.11.16...v1.11.17) (2024-02-26)
 
 ### Bug Fixes

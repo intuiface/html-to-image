@@ -1,6 +1,6 @@
 import { Options } from './types'
 import { embedResources } from './embed-resources'
-import { toArray, isInstanceOfElement } from './util'
+import { toArray, isInstanceOfElement, emptyImage } from './util'
 import { isDataUrl, resourceToDataURL } from './dataurl'
 import { getMimeType } from './mimes'
 
@@ -51,12 +51,16 @@ async function embedImageNode<T extends HTMLElement | SVGImageElement>(
   }
 
   let url = isImageElement ? clonedNode.src : clonedNode.href.baseVal
+  // url is empty => set a valid source (empty and tiny image) to avoid failing
   if (!url || url === '') {
-    url =
-      'data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+    url = emptyImage
   }
 
-  const dataURL = await resourceToDataURL(url, getMimeType(url), options)
+  let dataURL = await resourceToDataURL(url, getMimeType(url), options)
+  // url cannot be retrieved => set a valid source (empty and tiny image) to avoid failing
+  if (!dataURL || dataURL === '') {
+    dataURL = emptyImage
+  }
   await new Promise((resolve, reject) => {
     clonedNode.onload = resolve
     clonedNode.onerror = reject

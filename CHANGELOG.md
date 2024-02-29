@@ -1,3 +1,9 @@
+## [1.11.18](https://github.com/bubkoo/html-to-image/compare/v1.11.17...v1.11.18) (2024-02-28)
+
+### Bug Fixes
+
+* revert all commits which use an empty image as the option imagePlaceholder can be used
+
 ## [1.11.17](https://github.com/bubkoo/html-to-image/compare/v1.11.16...v1.11.17) (2024-02-26)
 
 ### Bug Fixes

@@ -50,11 +50,7 @@ async function embedImageNode<T extends HTMLElement | SVGImageElement>(
     return
   }
 
-  let url = isImageElement ? clonedNode.src : clonedNode.href.baseVal
-  if (!url || url === '') {
-    url =
-      'data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
-  }
+  const url = isImageElement ? clonedNode.src : clonedNode.href.baseVal
 
   const dataURL = await resourceToDataURL(url, getMimeType(url), options)
   await new Promise((resolve, reject) => {

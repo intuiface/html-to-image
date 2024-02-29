@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-* fix snapshot of image with an invalid source
+* revert all commits which use an empty image as the option imagePlaceholder can be used
 
 ## [1.11.17](https://github.com/bubkoo/html-to-image/compare/v1.11.16...v1.11.17) (2024-02-26)
 

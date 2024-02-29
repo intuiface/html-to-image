@@ -240,6 +240,3 @@ export const isInstanceOfElement = <
     isInstanceOfElement(nodePrototype, instance)
   )
 }
-
-export const emptyImage =
-  'data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='

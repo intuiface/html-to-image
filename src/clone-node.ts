@@ -1,6 +1,6 @@
 import type { Options } from './types'
 import { clonePseudoElements } from './clone-pseudos'
-import { createImage, toArray, isInstanceOfElement, emptyImage } from './util'
+import { createImage, toArray, isInstanceOfElement } from './util'
 import { getMimeType } from './mimes'
 import { resourceToDataURL } from './dataurl'
 
@@ -24,10 +24,6 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
     ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
     const dataURL = canvas.toDataURL()
     return createImage(dataURL)
-  }
-  if (video.poster == null || video.poster === '') {
-    // create an image with the tyniest source found
-    return createImage(emptyImage)
   }
 
   const poster = video.poster

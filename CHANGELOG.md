@@ -1,3 +1,9 @@
+## [1.11.19](https://github.com/bubkoo/html-to-image/compare/v1.11.18...v1.11.19) (2024-03-01)
+
+### Bug Fixes
+
+* fix snapshots of an iframe when an image of the iframe is in error
+
 ## [1.11.18](https://github.com/bubkoo/html-to-image/compare/v1.11.17...v1.11.18) (2024-02-28)
 
 ### Bug Fixes

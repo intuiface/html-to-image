@@ -1,3 +1,9 @@
+## [1.11.19](https://github.com/bubkoo/html-to-image/compare/v1.11.18...v1.11.19) (2024-02-29)
+
+### Bug Fixes
+
+* manage images with relative path in iFrame
+
 ## [1.11.18](https://github.com/bubkoo/html-to-image/compare/v1.11.17...v1.11.18) (2024-02-28)
 
 ### Bug Fixes

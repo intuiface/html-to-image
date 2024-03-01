@@ -64,6 +64,26 @@ async function cloneSingleNode<T extends HTMLElement>(
     return cloneIFrameElement(node)
   }
 
+  // Manage image with relative path in iframe
+  const src = (node as any).src
+  if (src != null) {
+    // Check if the image is in the top window
+    if (
+      node.ownerDocument.defaultView &&
+      window.top &&
+      node.ownerDocument.defaultView.location.host !== window.top.location.host
+    ) {
+      const baseUrl = `${node.ownerDocument.defaultView.location.protocol}//${node.ownerDocument.defaultView.location.host}`
+      const clonedNode = node.cloneNode(false) as any
+      if (!src.startsWith('https:')) {
+        clonedNode.src = `${baseUrl}${src}`
+      } else {
+        clonedNode.src = `${src}`
+      }
+      return clonedNode as T
+    }
+  }
+
   return node.cloneNode(false) as T
 }
 
@@ -102,9 +122,11 @@ async function cloneChildren<T extends HTMLElement>(
     children = toArray<T>((nativeNode.shadowRoot ?? nativeNode).childNodes)
   }
 
-  // Keep only visible elements
+  // Keep only visible elements and delete source tags
   children = children.filter(
-    (child) => child.style == null || child.style.display !== 'none',
+    (child) =>
+      (child.style == null || child.style.display !== 'none') &&
+      (child.tagName == null || child.tagName.toLowerCase() !== 'source'),
   )
 
   if (

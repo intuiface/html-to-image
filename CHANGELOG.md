@@ -1,3 +1,9 @@
+## [1.11.21](https://github.com/bubkoo/html-to-image/compare/v1.11.20...v1.11.21) (2025-05-21)
+
+### Bug Fixes
+
+* manage video ratio if object fit is set
+
 ## [1.11.20](https://github.com/bubkoo/html-to-image/compare/v1.11.19...v1.11.20) (2024-03-01)
 
 ### Bug Fixes

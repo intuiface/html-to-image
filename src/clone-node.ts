@@ -19,7 +19,6 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
   ) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
-    // Utilise la taille VISUELLE du conteneur (par ex. un parent ou video.clientWidth/Height)
     canvas.width = video.clientWidth
     canvas.height = video.clientHeight
 

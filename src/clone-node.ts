@@ -19,11 +19,42 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
   ) {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
+    // Utilise la taille VISUELLE du conteneur (par ex. un parent ou video.clientWidth/Height)
     canvas.width = video.clientWidth
     canvas.height = video.clientHeight
-    ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
-    const dataURL = canvas.toDataURL()
-    return createImage(dataURL)
+
+    const videoWidth = video.videoWidth
+    const videoHeight = video.videoHeight
+    const canvasWidth = canvas.width
+    const canvasHeight = canvas.height
+
+    const videoRatio = videoWidth / videoHeight
+    const canvasRatio = canvasWidth / canvasHeight
+
+    let sx
+    let sy
+    let sw
+    let sh
+
+    if (videoRatio > canvasRatio) {
+      // video too large - horizontal cropping
+      sh = videoHeight
+      sw = sh * canvasRatio
+      sx = (videoWidth - sw) / 2
+      sy = 0
+    } else {
+      // video trop tall - vertical cropping
+      sw = videoWidth
+      sh = sw / canvasRatio
+      sx = 0
+      sy = (videoHeight - sh) / 2
+    }
+
+    if (ctx) {
+      ctx.drawImage(video, sx, sy, sw, sh, 0, 0, canvasWidth, canvasHeight)
+      const dataURL = canvas.toDataURL()
+      return createImage(dataURL)
+    }
   }
 
   if (video.poster == null || video.poster === '') {

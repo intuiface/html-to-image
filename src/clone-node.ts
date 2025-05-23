@@ -22,35 +22,75 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
     canvas.width = video.clientWidth
     canvas.height = video.clientHeight
 
+    const objectFit = getComputedStyle(video).objectFit
+
     const videoWidth = video.videoWidth
     const videoHeight = video.videoHeight
+
     const canvasWidth = canvas.width
     const canvasHeight = canvas.height
 
-    const videoRatio = videoWidth / videoHeight
-    const canvasRatio = canvasWidth / canvasHeight
+    let sx = 0
+    let sy = 0
+    let dx = 0
+    let dy = 0
+    let sw = videoWidth
+    let sh = videoHeight
+    let dw = canvasWidth
+    let dh = canvasHeight
+    let scaleW = 1
+    let scaleH = 1
+    let resizeRatio
 
-    let sx
-    let sy
-    let sw
-    let sh
+    switch (objectFit) {
+      case 'fill':
+        scaleW = canvasWidth / videoWidth
+        scaleH = canvasHeight / videoHeight
+        break
+      case 'contain':
+        resizeRatio = Math.min(
+          canvasWidth / videoWidth,
+          canvasHeight / videoHeight,
+        )
+        scaleW = resizeRatio
+        scaleH = resizeRatio
+        break
+      case 'cover':
+        resizeRatio = Math.max(
+          canvasWidth / videoWidth,
+          canvasHeight / videoHeight,
+        )
+        scaleW = resizeRatio
+        scaleH = resizeRatio
+        break
+      case 'none':
+        break
+      default:
+        break
+    }
 
-    if (videoRatio > canvasRatio) {
-      // video too large - horizontal cropping
-      sh = videoHeight
-      sw = sh * canvasRatio
-      sx = (videoWidth - sw) / 2
-      sy = 0
+    // compute size
+    const resizeWidth = videoWidth * scaleW
+    const resizeHeight = videoHeight * scaleH
+    // compute position
+    if (resizeWidth > canvasWidth) {
+      // crop
+      sx = (resizeWidth - canvasWidth) / 2 / scaleW
+      sw -= sx * 2
     } else {
-      // video too tall - vertical cropping
-      sw = videoWidth
-      sh = sw / canvasRatio
-      sx = 0
-      sy = (videoHeight - sh) / 2
+      dx = (canvasWidth - resizeWidth) / 2
+      dw -= 2 * dx
+    }
+    if (resizeHeight > canvasHeight) {
+      sy = (resizeHeight - canvasHeight) / 2 / scaleH
+      sh -= sy * 2
+    } else {
+      dy = (canvasHeight - resizeHeight) / 2
+      dh -= 2 * dy
     }
 
     if (ctx) {
-      ctx.drawImage(video, sx, sy, sw, sh, 0, 0, canvasWidth, canvasHeight)
+      ctx.drawImage(video, sx, sy, sw, sh, dx, dy, dw, dh)
       const dataURL = canvas.toDataURL()
       return createImage(dataURL)
     }

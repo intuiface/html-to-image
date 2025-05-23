@@ -42,7 +42,7 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
       sx = (videoWidth - sw) / 2
       sy = 0
     } else {
-      // video trop tall - vertical cropping
+      // video too tall - vertical cropping
       sw = videoWidth
       sh = sw / canvasRatio
       sx = 0

@@ -22,8 +22,10 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
     canvas.width = video.clientWidth
     canvas.height = video.clientHeight
 
+    // get object-fit css property of video
     const objectFit = getComputedStyle(video).objectFit
 
+    // get real video size
     const videoWidth = video.videoWidth
     const videoHeight = video.videoHeight
 
@@ -44,10 +46,12 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
 
     switch (objectFit) {
       case 'fill':
+        // compute scale as fill with deform the video
         scaleW = canvasWidth / videoWidth
         scaleH = canvasHeight / videoHeight
         break
       case 'contain':
+        // compute ratio (take the min as we want to fit the container)
         resizeRatio = Math.min(
           canvasWidth / videoWidth,
           canvasHeight / videoHeight,
@@ -56,6 +60,7 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
         scaleH = resizeRatio
         break
       case 'cover':
+        // compute ratio, take the max as we can exceed the container
         resizeRatio = Math.max(
           canvasWidth / videoWidth,
           canvasHeight / videoHeight,
@@ -72,24 +77,33 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
     // compute size
     const resizeWidth = videoWidth * scaleW
     const resizeHeight = videoHeight * scaleH
+    // see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
     // compute position
     if (resizeWidth > canvasWidth) {
-      // crop
+      // compute position on source to start copying
       sx = (resizeWidth - canvasWidth) / 2 / scaleW
+      // compute source width to draw
       sw -= sx * 2
     } else {
+      // compute destination position to start drawing
       dx = (canvasWidth - resizeWidth) / 2
+      // compute destination width
       dw -= 2 * dx
     }
     if (resizeHeight > canvasHeight) {
+      // compute position on source to start copying
       sy = (resizeHeight - canvasHeight) / 2 / scaleH
+      // compute source height to draw
       sh -= sy * 2
     } else {
+      // compute destination position to start drawing
       dy = (canvasHeight - resizeHeight) / 2
+      // compute destination height
       dh -= 2 * dy
     }
 
     if (ctx) {
+      // draw image
       ctx.drawImage(video, sx, sy, sw, sh, dx, dy, dw, dh)
       const dataURL = canvas.toDataURL()
       return createImage(dataURL)

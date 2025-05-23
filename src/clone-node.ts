@@ -1,6 +1,12 @@
 import type { Options } from './types'
 import { clonePseudoElements } from './clone-pseudos'
-import { createImage, toArray, isInstanceOfElement, emptyImage } from './util'
+import {
+  createImage,
+  toArray,
+  isInstanceOfElement,
+  emptyImage,
+  getStyleProperties,
+} from './util'
 import { getMimeType } from './mimes'
 import { resourceToDataURL } from './dataurl'
 
@@ -67,12 +73,12 @@ async function cloneVideoElement(video: HTMLVideoElement, options: Options) {
   return createImage(dataURL)
 }
 
-async function cloneIFrameElement(iframe: HTMLIFrameElement) {
+async function cloneIFrameElement(iframe: HTMLIFrameElement, options: Options) {
   try {
     if (iframe?.contentDocument?.body) {
       return (await cloneNode(
         iframe.contentDocument.body,
-        {},
+        options,
         true,
       )) as HTMLBodyElement
     }
@@ -96,20 +102,27 @@ async function cloneSingleNode<T extends HTMLElement>(
   }
 
   if (isInstanceOfElement(node, HTMLIFrameElement)) {
-    return cloneIFrameElement(node)
+    return cloneIFrameElement(node, options)
   }
 
-  return node.cloneNode(false) as T
+  return node.cloneNode(isSVGElement(node)) as T
 }
 
 const isSlotElement = (node: HTMLElement): node is HTMLSlotElement =>
   node.tagName != null && node.tagName.toUpperCase() === 'SLOT'
+
+const isSVGElement = (node: HTMLElement): node is HTMLSlotElement =>
+  node.tagName != null && node.tagName.toUpperCase() === 'SVG'
 
 async function cloneChildren<T extends HTMLElement>(
   nativeNode: T,
   clonedNode: T,
   options: Options,
 ): Promise<T> {
+  if (isSVGElement(clonedNode)) {
+    return clonedNode
+  }
+
   let children: T[] = []
 
   if (
@@ -164,7 +177,11 @@ async function cloneChildren<T extends HTMLElement>(
   return clonedNode
 }
 
-function cloneCSSStyle<T extends HTMLElement>(nativeNode: T, clonedNode: T) {
+function cloneCSSStyle<T extends HTMLElement>(
+  nativeNode: T,
+  clonedNode: T,
+  options: Options,
+) {
   const targetStyle = clonedNode.style
   if (!targetStyle) {
     return
@@ -175,7 +192,7 @@ function cloneCSSStyle<T extends HTMLElement>(nativeNode: T, clonedNode: T) {
     targetStyle.cssText = sourceStyle.cssText
     targetStyle.transformOrigin = sourceStyle.transformOrigin
   } else {
-    toArray<string>(sourceStyle).forEach((name) => {
+    getStyleProperties(options).forEach((name) => {
       let value = sourceStyle.getPropertyValue(name)
       if (name === 'font-size' && value.endsWith('px')) {
         const reducedFont =
@@ -258,10 +275,14 @@ function cloneScrollbarPositions<T extends HTMLElement>(
   }
 }
 
-function decorate<T extends HTMLElement>(nativeNode: T, clonedNode: T): T {
+function decorate<T extends HTMLElement>(
+  nativeNode: T,
+  clonedNode: T,
+  options: Options,
+): T {
   if (isInstanceOfElement(clonedNode, Element)) {
-    cloneCSSStyle(nativeNode, clonedNode)
-    clonePseudoElements(nativeNode, clonedNode)
+    cloneCSSStyle(nativeNode, clonedNode, options)
+    clonePseudoElements(nativeNode, clonedNode, options)
     cloneInputValue(nativeNode, clonedNode)
     cloneSelectValue(nativeNode, clonedNode)
     cloneScrollbarPositions(nativeNode, clonedNode)
@@ -329,6 +350,6 @@ export async function cloneNode<T extends HTMLElement>(
   return Promise.resolve(node)
     .then((clonedNode) => cloneSingleNode(clonedNode, options) as Promise<T>)
     .then((clonedNode) => cloneChildren(node, clonedNode, options))
-    .then((clonedNode) => decorate(node, clonedNode))
+    .then((clonedNode) => decorate(node, clonedNode, options))
     .then((clonedNode) => ensureSVGSymbols(clonedNode, options))
 }

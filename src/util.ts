@@ -65,6 +65,22 @@ export function toArray<T>(arrayLike: any): T[] {
   return arr
 }
 
+let styleProps: string[] | null = null
+export function getStyleProperties(options: Options = {}): string[] {
+  if (styleProps) {
+    return styleProps
+  }
+
+  if (options.includeStyleProperties) {
+    styleProps = options.includeStyleProperties
+    return styleProps
+  }
+
+  styleProps = toArray(window.getComputedStyle(document.documentElement))
+
+  return styleProps
+}
+
 function px(node: HTMLElement, styleProperty: string) {
   const win = node.ownerDocument.defaultView || window
   const val = win.getComputedStyle(node).getPropertyValue(styleProperty)
@@ -183,8 +199,11 @@ export function canvasToBlob(
 export function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.decode = () => resolve(img) as any
-    img.onload = () => resolve(img)
+    img.onload = () => {
+      img.decode().then(() => {
+        requestAnimationFrame(() => resolve(img))
+      })
+    }
     img.onerror = reject
     img.crossOrigin = 'anonymous'
     img.decoding = 'async'

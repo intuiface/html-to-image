@@ -51,26 +51,26 @@ Go with the following examples.
 Get a PNG image base64-encoded data URL and display it right away:
 
 ```js
-var node = document.getElementById('my-node');
+const node = document.getElementById('my-node');
 
-htmlToImage.toPng(node)
-  .then(function (dataUrl) {
-    var img = new Image();
+htmlToImage
+  .toPng(node)
+  .then((dataUrl) => {
+    const img = new Image();
     img.src = dataUrl;
     document.body.appendChild(img);
   })
-  .catch(function (error) {
-    console.error('oops, something went wrong!', error);
+  .catch((err) => {
+    console.error('oops, something went wrong!', err);
   });
 ```
 
 Get a PNG image base64-encoded data URL and download it (using [download](https://github.com/rndme/download)):
 
 ```js
-htmlToImage.toPng(document.getElementById('my-node'))
-  .then(function (dataUrl) {
-    download(dataUrl, 'my-node.png');
-  });
+htmlToImage
+  .toPng(document.getElementById('my-node'))
+  .then((dataUrl) => download(dataUrl, 'my-node.png'));
 ```
 
 #### toSvg
@@ -81,7 +81,8 @@ function filter (node) {
   return (node.tagName !== 'i');
 }
 
-htmlToImage.toSvg(document.getElementById('my-node'), { filter: filter })
+htmlToImage
+  .toSvg(document.getElementById('my-node'), { filter: filter })
   .then(function (dataUrl) {
     /* do something */
   });
@@ -91,7 +92,8 @@ htmlToImage.toSvg(document.getElementById('my-node'), { filter: filter })
 Save and download a compressed JPEG image:
 
 ```js
-htmlToImage.toJpeg(document.getElementById('my-node'), { quality: 0.95 })
+htmlToImage
+  .toJpeg(document.getElementById('my-node'), { quality: 0.95 })
   .then(function (dataUrl) {
     var link = document.createElement('a');
     link.download = 'my-image-name.jpeg';
@@ -104,7 +106,8 @@ htmlToImage.toJpeg(document.getElementById('my-node'), { quality: 0.95 })
 Get a PNG image blob and download it (using [FileSaver](https://github.com/eligrey/FileSaver.js)):
 
 ```js
-htmlToImage.toBlob(document.getElementById('my-node'))
+htmlToImage
+  .toBlob(document.getElementById('my-node'))
   .then(function (blob) {
     if (window.saveAs) {
       window.saveAs(blob, 'my-node.png');
@@ -118,7 +121,8 @@ htmlToImage.toBlob(document.getElementById('my-node'))
 Get a HTMLCanvasElement, and display it right away:
 
 ```js
-htmlToImage.toCanvas(document.getElementById('my-node'))
+htmlToImage
+  .toCanvas(document.getElementById('my-node'))
   .then(function (canvas) {
     document.body.appendChild(canvas);
   });
@@ -130,7 +134,8 @@ Get the raw pixel data as a [Uint8Array](https://developer.mozilla.org/en-US/doc
 ```js
 var node = document.getElementById('my-node');
 
-htmlToImage.toPixelData(node)
+htmlToImage
+  .toPixelData(node)
   .then(function (pixels) {
     for (var y = 0; y < node.scrollHeight; ++y) {
       for (var x = 0; x < node.scrollWidth; ++x) {
@@ -274,9 +279,9 @@ instead using this value. This is useful when combined with `getFontEmbedCSS()` 
 embedding process a single time across multiple calls to library functions.
 
 ```javascript
-const fontEmbedCss = await htmlToImage.getFontEmbedCSS(element1);
-html2Image.toSVG(element1, { fontEmbedCss });
-html2Image.toSVG(element2, { fontEmbedCss });
+const fontEmbedCSS = await htmlToImage.getFontEmbedCSS(element1);
+html2Image.toSVG(element1, { fontEmbedCSS });
+html2Image.toSVG(element2, { fontEmbedCSS });
 ```
 
 ### extraStyleContent
@@ -299,7 +304,11 @@ Defaults to `false`
 A string indicating the image format. The default type is image/png; that type is also used if the given type isn't supported.
 When supplied, the toCanvas function will return a blob matching the given image type and quality. 
 
-Defaults to `image/png`  
+Defaults to `image/png`
+
+### includeStyleProperties
+
+An array of style property names. Can be used to manually specify which style properties are included when cloning nodes. This can be useful for performance-critical scenarios.
 
 ## Browsers
 

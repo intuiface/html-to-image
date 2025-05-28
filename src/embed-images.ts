@@ -26,12 +26,12 @@ async function embedBackground<T extends HTMLElement>(
   clonedNode: T,
   options: Options,
 ) {
-  if (!(await embedProp('background', clonedNode, options))) {
-    await embedProp('background-image', clonedNode, options)
-  }
-  if (!(await embedProp('mask', clonedNode, options))) {
-    await embedProp('mask-image', clonedNode, options)
-  }
+  ;(await embedProp('background', clonedNode, options)) ||
+    (await embedProp('background-image', clonedNode, options))
+  ;(await embedProp('mask', clonedNode, options)) ||
+    (await embedProp('-webkit-mask', clonedNode, options)) ||
+    (await embedProp('mask-image', clonedNode, options)) ||
+    (await embedProp('-webkit-mask-image', clonedNode, options))
 }
 
 async function embedImageNode<T extends HTMLElement | SVGImageElement>(
@@ -53,9 +53,18 @@ async function embedImageNode<T extends HTMLElement | SVGImageElement>(
   const url = isImageElement ? clonedNode.src : clonedNode.href.baseVal
 
   const dataURL = await resourceToDataURL(url, getMimeType(url), options)
-  await new Promise((resolve) => {
+  await new Promise((resolve /* , reject */) => {
     clonedNode.onload = resolve
-    clonedNode.onerror = resolve
+    clonedNode.onerror = options.onImageErrorHandler
+      ? (...attributes) => {
+          try {
+            resolve(options.onImageErrorHandler!(...attributes))
+          } catch (error) {
+            // reject(error)
+            resolve(error)
+          }
+        }
+      : resolve // reject
 
     const image = clonedNode as HTMLImageElement
     if (image.decode) {

@@ -1,8 +1,7 @@
-## [1.11.21](https://github.com/intuiface/html-to-image/compare/v1.11.20...v1.11.21) (2025-05-21)
+## [1.11.22](https://github.com/intuiface/html-to-image/compare/v1.11.21...v1.11.22) (2025-05-28)
 
 ### Bug Fixes
 
-* manage video ratio if object fit is set
 * **mask:** add support for -webkit-mask and -webkit-mask-image ([#382](https://github.com/bubkoo/html-to-image/issues/382)) ([5bdfda7](https://github.com/bubkoo/html-to-image/commit/5bdfda75cc41248f4e161ea434bbfc535e72f95e))
 * add possibility to use own handling of onerror which will not en… ([#453](https://github.com/bubkoo/html-to-image/issues/453)) ([04160c3](https://github.com/bubkoo/html-to-image/commit/04160c3e77f55e95082cbd4879847d0afda92883))
 * ensure images are totally prcoessed before using them (ios) ([#478](https://github.com/bubkoo/html-to-image/issues/478)) ([51fb98f](https://github.com/bubkoo/html-to-image/commit/51fb98f69b6eef6c391a5a7859711a5f0601f467))
@@ -12,6 +11,13 @@
 
 * embed only used fonts ([#476](https://github.com/bubkoo/html-to-image/issues/476)) ([09bee44](https://github.com/bubkoo/html-to-image/commit/09bee442c27bde2af06442417f4269e763e6b6cd))
 * svg cloning optimized using deep clone ([#462](https://github.com/bubkoo/html-to-image/issues/462)) ([9aac2fd](https://github.com/bubkoo/html-to-image/commit/9aac2fd11333ca302d10f2c438cd16be07a1429d))
+
+
+## [1.11.21](https://github.com/intuiface/html-to-image/compare/v1.11.20...v1.11.21) (2025-05-21)
+
+### Bug Fixes
+
+* manage video ratio if object fit is set
 
 ## [1.11.20](https://github.com/intuiface/html-to-image/compare/v1.11.19...v1.11.20) (2024-03-01)
 
